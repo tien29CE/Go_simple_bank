@@ -7,21 +7,27 @@ import (
 )
 
 // Store provides all functions to execute db queries and transactions
-type Store struct {
-	*Queries
+type Store interface {
+	Querier
+	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
+}
+
+// Store provides all functions to execute SQL queries and transactions
+type SQLStore struct {
 	db *sql.DB
+	*Queries
 }
 
 // NewStore creates a new Store
-func NewStore(db *sql.DB) *Store {
-	return &Store{
+func NewStore(db *sql.DB) Store {
+	return &SQLStore{
 		db:      db,
 		Queries: New(db),
 	}
 }
 
 // execTX executes a function within a database transaction
-func (store *Store) execTX(ctx context.Context, fn func(*Queries) error) error {
+func (store *SQLStore) execTX(ctx context.Context, fn func(*Queries) error) error {
 	tx, err := store.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -58,7 +64,7 @@ var txKey = struct{}{}
 
 // TransferTx performs a money from one account to the other.
 // It creates a transfer record, add acount entries, and update acounts' balance withen a single database transaction
-func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
+func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
 	err := store.execTX(ctx, func(q *Queries) error {
