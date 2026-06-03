@@ -1,3 +1,5 @@
+DB_URL=postgresql://root:root@localhost:5432/simple_bank?sslmode=disable
+
 postgres:
 	sudo docker run --name postgres18.3 --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -d postgres:18.3-alpine
 
@@ -8,16 +10,16 @@ dropdb:
 	sudo docker exec -it postgres18.3 dropdb simple_bank
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:root@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
 migrateup1:
-	migrate -path db/migration -database "postgresql://root:root@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+	migrate -path db/migration -database "$(DB_URL)" -verbose up 1
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:root@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	migrate -path db/migration -database "$(DB_URL)" -verbose down
 
 migratedown1:
-	migrate -path db/migration -database "postgresql://root:root@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
 sqlc:
 	sqlc generate
@@ -31,4 +33,13 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/tien29CE/Go_simple_bank.git/db/sqlc Store
 
-.PHONY: createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 sqlc server
+proto:
+	rm -f pb/*.go
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+    --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+    proto/*.proto
+
+evans:
+	evans --host localhost --port 9090 -r repl
+
+.PHONY: createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 sqlc server proto evans

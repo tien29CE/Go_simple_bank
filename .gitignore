@@ -1,2 +1,2 @@
 go.sum
-app.env
+*.log
