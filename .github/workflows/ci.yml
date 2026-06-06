@@ -40,8 +40,9 @@ jobs:
       - name: Install golang-migrate
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.19.1
-          sudo mv $(go env GOPATH)/bin/migrate /usr/local/bin/migrate
+          sudo mv $(go env GOPATH)/bin/migrate /usr/bin/migrate
           migrate -version
+          go mod tidy
 
       - name: Run migrations
         run: make migrateup
