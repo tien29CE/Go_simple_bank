@@ -13,7 +13,6 @@ message UpdateUserRequest {
     optional string password = 4;
 }
 
-
 message UpdateUserResponse {
     User user = 1;
 }

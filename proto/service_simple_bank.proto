@@ -12,19 +12,19 @@ option go_package = "github.com/tien29CE/Go_simple_bank.git/pb";
 service SimpleBank {
     rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
         option (google.api.http) = {
-            post:"/v1/create_user"
+            post:"/v2/create_user"
             body: "*"
         };
     }
     rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
         option (google.api.http) = {
-            patch:"/v1/update_user"
+            patch:"/v2/update_user"
             body: "*"
         };
     }
     rpc LoginUser (LoginUserRequest) returns (LoginUserResponse) {
         option (google.api.http) = {
-            post:"/v1/login_user"
+            post:"/v2/login_user"
             body: "*"
         };
     }

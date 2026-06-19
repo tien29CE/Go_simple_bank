@@ -128,7 +128,7 @@ func RegisterSimpleBankHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SimpleBank/CreateUser", runtime.WithHTTPPathPattern("/v1/create_user"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SimpleBank/CreateUser", runtime.WithHTTPPathPattern("/v2/create_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -148,7 +148,7 @@ func RegisterSimpleBankHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SimpleBank/UpdateUser", runtime.WithHTTPPathPattern("/v1/update_user"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SimpleBank/UpdateUser", runtime.WithHTTPPathPattern("/v2/update_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -168,7 +168,7 @@ func RegisterSimpleBankHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SimpleBank/LoginUser", runtime.WithHTTPPathPattern("/v1/login_user"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.SimpleBank/LoginUser", runtime.WithHTTPPathPattern("/v2/login_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -226,7 +226,7 @@ func RegisterSimpleBankHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SimpleBank/CreateUser", runtime.WithHTTPPathPattern("/v1/create_user"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SimpleBank/CreateUser", runtime.WithHTTPPathPattern("/v2/create_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -243,7 +243,7 @@ func RegisterSimpleBankHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SimpleBank/UpdateUser", runtime.WithHTTPPathPattern("/v1/update_user"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SimpleBank/UpdateUser", runtime.WithHTTPPathPattern("/v2/update_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -260,7 +260,7 @@ func RegisterSimpleBankHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SimpleBank/LoginUser", runtime.WithHTTPPathPattern("/v1/login_user"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/pb.SimpleBank/LoginUser", runtime.WithHTTPPathPattern("/v2/login_user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -277,9 +277,9 @@ func RegisterSimpleBankHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_SimpleBank_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "create_user"}, ""))
-	pattern_SimpleBank_UpdateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "update_user"}, ""))
-	pattern_SimpleBank_LoginUser_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "login_user"}, ""))
+	pattern_SimpleBank_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v2", "create_user"}, ""))
+	pattern_SimpleBank_UpdateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v2", "update_user"}, ""))
+	pattern_SimpleBank_LoginUser_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v2", "login_user"}, ""))
 )
 
 var (
