@@ -21,6 +21,9 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
+
 sqlc:
 	sqlc generate
 
@@ -48,4 +51,4 @@ evans:
 redis:
 	sudo docker run --name redis8 --network bank-network -p 6379:6379 -d redis:8-alpine
 
-.PHONY: createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 sqlc server proto evans redis
+.PHONY: createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 sqlc server proto evans redis new_migration
