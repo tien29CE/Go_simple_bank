@@ -47,7 +47,7 @@ func (server *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 		}
 		arg.HashedPassword = sql.NullString{
 			String: hashedPassword,
-			Valid:  true,
+			Valid: true,
 		}
 		arg.PasswordChangedAt = sql.NullTime{
 			Time: time.Now(),

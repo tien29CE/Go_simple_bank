@@ -36,13 +36,13 @@ func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
 
 	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
 		Str("queue", info.Queue).Int("max_retry", info.MaxRetry).Msg("enqueued task")
-	
+
 	return nil
 }
 
 func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error {
 	var payload PayloadSendVerifyEmail
-	if err := json.Unmarshal(task.Payload(), &payload); err != nil{
+	if err := json.Unmarshal(task.Payload(), &payload); err != nil {
 		return fmt.Errorf("failed to unmarshal payload: %w", err)
 	}
 
@@ -55,8 +55,8 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 	}
 
 	verifyEmail, err := processor.store.CreateVerifyEmail(ctx, db.CreateVerifyEmailParams{
-		Username: user.Username,
-		Email: user.Email,
+		Username:   user.Username,
+		Email:      user.Email,
 		SecretCode: util.RandomString(32),
 	})
 	if err != nil {
@@ -65,10 +65,11 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 
 	// send email to user
 	subject := "Welcome to Simple Bank"
-	verfifyUrl := fmt.Sprintf("http://simple-bank.org?id=%d", verifyEmail.ID)
+	verfifyUrl := fmt.Sprintf("http://localhost:8080/v2/verify_email?email_id=%d&secret_code=%s",
+		verifyEmail.ID, verifyEmail.SecretCode)
 	content := fmt.Sprintf(`Hello %s, <br/>
 	Thank you for registering with us!<br/>
-	Please <a href="%s"> <a/> to verify your email address.<br/>
+	Please <a href="%s">click here</a> to verify your email address.<br/>
 	`, user.Username, verfifyUrl)
 	to := []string{user.Email}
 
